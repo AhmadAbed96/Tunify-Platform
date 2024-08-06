@@ -2,7 +2,7 @@
 {
     public class Users
     {
-        public int Id { get; set; }
+        public int UsersId { get; set; }
         public string UserName { get; set; }
 
         public string Join_Date { get; set; }

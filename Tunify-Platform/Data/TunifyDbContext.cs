@@ -10,5 +10,8 @@ namespace Tunify_Platform.NewFolder
                
         }
         public DbSet<Users> users { get; set; }
+        public DbSet<Subscription> subscriptions { get; set; }
+        public DbSet<Artist> artist { get; set; }
+
     }
 }
