@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tunify_Platform.NewFolder;
 
@@ -11,9 +12,11 @@ using Tunify_Platform.NewFolder;
 namespace Tunify_Platform.Migrations
 {
     [DbContext(typeof(Tunify_DbContext))]
-    partial class Tunify_DbContextModelSnapshot : ModelSnapshot
+    [Migration("20240810173604_AddUsersData")]
+    partial class AddUsersData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,26 +49,6 @@ namespace Tunify_Platform.Migrations
                     b.HasIndex("ArtistId");
 
                     b.ToTable("album");
-
-                    b.HasData(
-                        new
-                        {
-                            AlbumId = 1,
-                            AlbumName = "Album 1",
-                            Release_Date = "20/4/2023"
-                        },
-                        new
-                        {
-                            AlbumId = 2,
-                            AlbumName = "Album 2",
-                            Release_Date = "21/4/2023"
-                        },
-                        new
-                        {
-                            AlbumId = 3,
-                            AlbumName = "Album 3",
-                            Release_Date = "20/4/2023"
-                        });
                 });
 
             modelBuilder.Entity("Tunify_Platform.Models.Artist", b =>
@@ -77,6 +60,7 @@ namespace Tunify_Platform.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ArtistId"));
 
                     b.Property<string>("Bio")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -86,23 +70,6 @@ namespace Tunify_Platform.Migrations
                     b.HasKey("ArtistId");
 
                     b.ToTable("artist");
-
-                    b.HasData(
-                        new
-                        {
-                            ArtistId = 1,
-                            Name = "Artist 1"
-                        },
-                        new
-                        {
-                            ArtistId = 2,
-                            Name = "Artist 2"
-                        },
-                        new
-                        {
-                            ArtistId = 3,
-                            Name = "Artist 3"
-                        });
                 });
 
             modelBuilder.Entity("Tunify_Platform.Models.PlayList", b =>
@@ -114,6 +81,7 @@ namespace Tunify_Platform.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PlayListId"));
 
                     b.Property<string>("Created_date")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PlayList_Name")
@@ -128,26 +96,6 @@ namespace Tunify_Platform.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("playList");
-
-                    b.HasData(
-                        new
-                        {
-                            PlayListId = 1,
-                            PlayList_Name = "Playlist 1",
-                            UserId = 1
-                        },
-                        new
-                        {
-                            PlayListId = 2,
-                            PlayList_Name = "Playlist 2",
-                            UserId = 2
-                        },
-                        new
-                        {
-                            PlayListId = 3,
-                            PlayList_Name = "Playlist 3",
-                            UserId = 3
-                        });
                 });
 
             modelBuilder.Entity("Tunify_Platform.Models.PlayListSongs", b =>
@@ -200,35 +148,6 @@ namespace Tunify_Platform.Migrations
                     b.HasIndex("ArtistId");
 
                     b.ToTable("songs");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AlbumId = 1,
-                            ArtistId = 1,
-                            Duration = new TimeSpan(0, 0, 3, 0, 0),
-                            Genre = "Pop",
-                            Title = "Song 1"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AlbumId = 2,
-                            ArtistId = 2,
-                            Duration = new TimeSpan(0, 0, 4, 0, 0),
-                            Genre = "Rock",
-                            Title = "Song 2"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            AlbumId = 3,
-                            ArtistId = 3,
-                            Duration = new TimeSpan(0, 0, 5, 0, 0),
-                            Genre = "Jazz",
-                            Title = "Song 3"
-                        });
                 });
 
             modelBuilder.Entity("Tunify_Platform.Models.Subscription", b =>
@@ -249,26 +168,6 @@ namespace Tunify_Platform.Migrations
                     b.HasKey("SubscriptionId");
 
                     b.ToTable("subscriptions");
-
-                    b.HasData(
-                        new
-                        {
-                            SubscriptionId = 1,
-                            Price = 50m,
-                            Subscription_Type = "gold"
-                        },
-                        new
-                        {
-                            SubscriptionId = 2,
-                            Price = 25m,
-                            Subscription_Type = "selver"
-                        },
-                        new
-                        {
-                            SubscriptionId = 3,
-                            Price = 20m,
-                            Subscription_Type = "bronz"
-                        });
                 });
 
             modelBuilder.Entity("Tunify_Platform.Models.Users", b =>
@@ -301,32 +200,6 @@ namespace Tunify_Platform.Migrations
                         .HasFilter("[SubId] IS NOT NULL");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            UsersId = 1,
-                            Email = "Abed@example.com",
-                            Join_Date = "20/4/2023",
-                            SubId = 1,
-                            UserName = "Abed"
-                        },
-                        new
-                        {
-                            UsersId = 2,
-                            Email = "Samer@example.com",
-                            Join_Date = "21/4/2023",
-                            SubId = 2,
-                            UserName = "Samer"
-                        },
-                        new
-                        {
-                            UsersId = 3,
-                            Email = "khaled@example.com",
-                            Join_Date = "20/4/2023",
-                            SubId = 3,
-                            UserName = "khaled"
-                        });
                 });
 
             modelBuilder.Entity("Tunify_Platform.Models.Album", b =>

@@ -2,10 +2,10 @@
 {
     public class PlayListSongs
     {
-        public int PlaylistSongId { get; set; }
-        public int PlaylistId { get; set; }
-        public PlayList Playlist { get; set; }
-        public int SongId { get; set; }
-        public Songs Song { get; set; }
+        public string Id { get; set; }
+        public int? PlaylistId { get; set; }
+        public PlayList? Playlist { get; set; }
+        public int SongsId { get; set; }
+        public Songs? Song { get; set; }
     }
 }
