@@ -1,4 +1,5 @@
-﻿namespace Tunify_Platform.Models
+﻿
+namespace Tunify_Platform.Models
 {
     public class Artist
     {
@@ -7,5 +8,10 @@
         public string Name { get; set; }
         public string? Bio {  get; set; }
         public ICollection<Songs>? songs { get; set; } = new List<Songs>();
+
+        internal async Task SaveChangesASync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
