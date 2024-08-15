@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tunify_Platform.NewFolder;
 
@@ -11,9 +12,11 @@ using Tunify_Platform.NewFolder;
 namespace Tunify_Platform.Migrations
 {
     [DbContext(typeof(Tunify_DbContext))]
-    partial class Tunify_DbContextModelSnapshot : ModelSnapshot
+    [Migration("20240815091622_deleteIdForPlayListSongs")]
+    partial class deleteIdForPlayListSongs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -163,23 +166,6 @@ namespace Tunify_Platform.Migrations
                     b.HasIndex("SongsId");
 
                     b.ToTable("playListSongs");
-
-                    b.HasData(
-                        new
-                        {
-                            PlaylistId = 2,
-                            SongsId = 1
-                        },
-                        new
-                        {
-                            PlaylistId = 1,
-                            SongsId = 1
-                        },
-                        new
-                        {
-                            PlaylistId = 2,
-                            SongsId = 2
-                        });
                 });
 
             modelBuilder.Entity("Tunify_Platform.Models.Songs", b =>

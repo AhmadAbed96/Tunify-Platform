@@ -1,4 +1,5 @@
-﻿using Tunify_Platform.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using Tunify_Platform.Models;
 
 namespace Tunify_Platform.Repositories.InterFace
 {
@@ -10,5 +11,7 @@ namespace Tunify_Platform.Repositories.InterFace
         Task<PlayList> UpdatePlayList(int id, PlayList playList);
         Task<PlayList> DeletePlayListById(int id);
         Task<PlayList> CreatePlayList(PlayList playList);
+        Task<PlayList> AddSongToPlayList(int song , int playList);
+        Task<List<Songs>> GetPlayListSong(int id);
     }
 }

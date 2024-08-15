@@ -8,10 +8,7 @@ namespace Tunify_Platform.Models
         public string Name { get; set; }
         public string? Bio {  get; set; }
         public ICollection<Songs>? songs { get; set; } = new List<Songs>();
+        public ICollection<Album> Albums { get; set; } = new List<Album>();
 
-        internal async Task SaveChangesASync()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

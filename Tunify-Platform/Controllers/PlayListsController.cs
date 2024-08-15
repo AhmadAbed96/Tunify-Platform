@@ -28,11 +28,31 @@ namespace Tunify_Platform.Controllers
         public async Task<ActionResult<IEnumerable<PlayList>>> GetAllplayList()
         {
             var AllplayLists = await _playList.GetAllPlayList();
-            
-            if (AllplayLists == null) return NotFound();             
-           
+
+            if (AllplayLists == null) return NotFound();
             return Ok(AllplayLists);
         }
+
+
+
+
+        [HttpPost]
+        [Route("{playlistId}/songs/{songId}")]
+
+
+        public async Task<IActionResult> AddSongToPlayList(int songId, int playlistId)
+        {
+            var playList = await _playList.AddSongToPlayList(songId, playlistId);
+            return Ok();
+        }
+
+        [HttpGet("{playlistId}/AllSongs")]
+        public async Task<ActionResult<List<Songs>>> GetPlayListSong(int playlistId)
+        {
+            var Song = await _playList.GetPlayListSong(playlistId);
+            return Song;
+        }
+
 
         // GET: api/PlayLists/5
         [HttpGet("{id}")]

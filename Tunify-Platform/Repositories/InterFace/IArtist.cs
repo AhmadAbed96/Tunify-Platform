@@ -10,5 +10,7 @@ namespace Tunify_Platform.Repositories.InterFace
         Task<Artist> UpdateArtist(int id, Artist artist);
         Task<Artist> DeleteArtistById(int id);
         Task<Artist> CreateArtist(Artist artist);
+        Task<Songs> AddSongTArtist(int song, int artist);
+        Task<Songs> GetArtistSongs(int id);
     }
 }
