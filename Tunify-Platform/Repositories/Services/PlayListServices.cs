@@ -2,6 +2,8 @@
 using Tunify_Platform.Repositories.InterFace;
 using Tunify_Platform.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace Tunify_Platform.Repositories.Services
@@ -14,6 +16,29 @@ namespace Tunify_Platform.Repositories.Services
         {
             _context = context;
         }
+
+        public async Task<PlayList> AddSongToPlayList(int songId, int playlistId)
+        {
+            PlayListSongs playlistSong = new PlayListSongs()
+            {
+                SongsId = songId,
+                PlaylistId = playlistId
+            };
+            _context.Entry(playlistSong).State = EntityState.Added;
+             await _context.SaveChangesAsync();
+             var playlist = await GetPlayListById(playlistId);
+            return playlist;
+        }
+
+        public async Task<List<Songs>> GetPlayListSong(int id)
+        {
+            var playlistSongs = await _context.playListSongs
+                .Where(p => p.PlaylistId == id)
+                .Select(p => p.Song)
+                .ToListAsync();
+            return playlistSongs;
+        } 
+
         public async Task<PlayList> CreatePlayList(PlayList playList)
         {
              _context.playList.Add(playList);

@@ -13,11 +13,28 @@ namespace Tunify_Platform.Repositories.Services
         {
             _context = context;
         }
+
+        public async Task<Songs> AddSongToArtist(int artistId, int songId)
+        {
+            {
+                var song = await _context.songs.FirstOrDefaultAsync(e => e.Id == songId);
+                song.ArtistId = artistId;
+                await _context.SaveChangesAsync();
+                return song;
+
+            }
+        }
+
         public async Task<Songs> CreateSong(Songs song)
         {
             _context.songs.Add(song);
             await _context.SaveChangesAsync();
             return song;
+        }
+
+        public Task<Songs> CreateSong(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<Songs> DeleteSongById(int SongId)
@@ -35,6 +52,17 @@ namespace Tunify_Platform.Repositories.Services
         public async Task<IEnumerable<Songs>> GetAllSongs()
         {
             return await _context.songs.ToListAsync();
+        }
+
+        public async Task<List<Songs>> GetAllsongsbyanartists(int ArtistId)
+        {
+            List<Songs> AllSongs = await _context
+               .songs
+               .Where(e => e.ArtistId == ArtistId).ToListAsync();
+
+            if (AllSongs.Count == 0) return null;
+
+            return AllSongs;
         }
 
         public async Task<Songs> GetSongById(int id)
@@ -65,5 +93,6 @@ namespace Tunify_Platform.Repositories.Services
         {
             return (_context.songs?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+
     }
 }

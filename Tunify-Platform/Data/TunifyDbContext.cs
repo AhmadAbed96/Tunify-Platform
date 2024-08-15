@@ -54,6 +54,14 @@ namespace Tunify_Platform.NewFolder
                 .HasOne(ps => ps.Song)
                 .WithMany(s => s.PlaylistSongs)
                 .HasForeignKey(ps => ps.SongsId);
+
+            modelBuilder.Entity<PlayListSongs>().HasData(
+                new PlayListSongs { SongsId = 1, PlaylistId = 2 },
+                new PlayListSongs { SongsId = 1, PlaylistId = 1 },
+                new PlayListSongs { SongsId = 2, PlaylistId = 2 }
+
+                );
+
             modelBuilder.Entity<Subscription>().HasData(new List<Subscription>
              {
                  new Subscription{ SubscriptionId = 1, Subscription_Type = "gold", Price = 50},
