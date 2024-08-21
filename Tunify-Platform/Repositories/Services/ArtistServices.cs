@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
+using System.Security.Policy;
 using Tunify_Platform.Models;
 using Tunify_Platform.NewFolder;
 using Tunify_Platform.Repositories.InterFace;
@@ -38,7 +39,7 @@ namespace Tunify_Platform.Repositories.Services
             _context.Entry(artist).State = EntityState.Modified;
             try
             {
-                await artist.SaveChangesASync();
+                await _context.SaveChangesAsync();
             }
             catch (DbException)
             {
@@ -67,26 +68,25 @@ namespace Tunify_Platform.Repositories.Services
             return artist;
         }
 
-        public Task<Songs> AddSongTArtist(int songId, int artistId)
+        public async Task<Songs> AddSongTArtist(int songId, int artistId)
         {
-            Songs ArtistSong = new Songs()
-            {
-                ArtistId = songId,
-                Id = songId
-            };
-            _context.Entry(ArtistSong).State = EntityState.Added;
+            var song = await _context.songs.FirstOrDefaultAsync(e => e.Id == songId);
+            song.ArtistId = artistId;
             await _context.SaveChangesAsync();
-            var artistsong = await GetArtistById(artistId);
-            return ArtistSong;
+            return song;
         }
 
-        public Task<List<Songs>> GetArtistSongs(int id)
+        public async Task<List<Songs>> GetArtistSongs(int id)
         {
-            var S = await _context.playListSongs
-                .Where(p => p.PlaylistId == id)
-                .Select(p => p.Song)
-                .ToListAsync();
-            return playlistSongs;
+            List<Songs> AllSongs = await _context.songs
+            .Where(e => e.ArtistId == id)
+            .ToListAsync();
+
+            if (AllSongs.Count == 0) return null;
+
+            return AllSongs;
         }
+       
+
     }
 }

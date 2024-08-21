@@ -72,10 +72,9 @@ namespace Tunify_Platform.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUsers(int id)
         {
-            var deleteuser =  _user.DeleteUserById(id);
-            if (deleteuser == null) return NotFound();
+            await _user.DeleteUserById(id);
             
-            else return Ok(deleteuser);
+             return Ok();
         }
 
         

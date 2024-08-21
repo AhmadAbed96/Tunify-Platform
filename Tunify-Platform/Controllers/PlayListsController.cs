@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Tunify_Platform.Models;
 using Tunify_Platform.NewFolder;
 using Tunify_Platform.Repositories.InterFace;
+using Tunify_Platform.Repositories.Services;
 
 namespace Tunify_Platform.Controllers
 {
@@ -36,13 +37,14 @@ namespace Tunify_Platform.Controllers
 
 
 
-        [HttpPost]
-        [Route("{playlistId}/songs/{songId}")]
+        [HttpPost("{songId}/songs/{playlistId}")]
+        //[Route("{songId}/songs/{playlistId}")]
 
 
         public async Task<IActionResult> AddSongToPlayList(int songId, int playlistId)
         {
-            var playList = await _playList.AddSongToPlayList(songId, playlistId);
+            var playList = await _playList.AddSongToPlaylist(songId, playlistId);
+            if (playList == null) return NotFound();
             return Ok();
         }
 
@@ -101,6 +103,27 @@ namespace Tunify_Platform.Controllers
             return Ok(deleteSong);
         }
 
-        
+       
+        // GET: api/Playlists/{playlistId}/songs
+        [HttpGet("{playlistId}/songs")]
+        public async Task<IActionResult> GetSongsInPlaylist(int playlistId)
+        {
+            try
+            {
+                var songs = await _playList.GetPlayListSong(playlistId);
+
+                if (songs == null || !songs.Any())
+                {
+                    return NotFound("No songs found for this playlist.");
+                }
+
+                return Ok(songs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

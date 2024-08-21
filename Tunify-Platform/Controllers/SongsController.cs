@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Tunify_Platform.Models;
 using Tunify_Platform.NewFolder;
 using Tunify_Platform.Repositories.InterFace;
+using Tunify_Platform.Repositories.Services;
 
 namespace Tunify_Platform.Controllers
 {
@@ -23,8 +24,8 @@ namespace Tunify_Platform.Controllers
         }
 
         // GET: api/Songs
-        [Route("/GetAllsongs")]
         [HttpGet]
+        
         public async Task<ActionResult<IEnumerable<Songs>>> GetAllsongs()
         {
             var AllSongs = await _song.GetAllSongs();
@@ -47,52 +48,44 @@ namespace Tunify_Platform.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutSongs(int id, Songs songs)
         {
-            if (songs.Id != id)
+            if (id != songs.Id)
             {
                 return BadRequest();
             }
-            var UpdateSong = await _song.UpdateSong(id, songs);
-            if (UpdateSong == null)
+
+            var existingSong = await _song.GetSongById(id);  
+            if (existingSong == null)
             {
                 return NotFound();
             }
-            return Ok(UpdateSong);
+            await _song.UpdateSong(existingSong);  
+            return NoContent();
         }
-
         // POST: api/Songs
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Songs>> PostSongs(Songs songs)
+        public async Task<IActionResult> PostSongs(Songs songs)
         {
-            return  await _song.CreateSong(songs);
-            
+              await _song.CreateSong(songs);
+              return Ok();
         }
 
         // DELETE: api/Songs/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSongs(int id)
         {
-             var deleteSong = await _song.DeleteSongById(id);
-            if (deleteSong == null) return NotFound();
-            return Ok(deleteSong);
+            var existingSong = await _song.GetSongById(id);  
+            if (existingSong == null)
+            {
+                return NotFound();
+            }
+
+            await _song.DeleteSongById(id); 
+            return NoContent();
         }
 
-        [HttpGet]
-        [Route("[action]/{ArtistId}")]
-        public async Task<ActionResult<List<Songs>>> GetAllsongsbyanartist(int ArtistId)
-        {
-            var AssSongs = await _song.GetAllsongsbyanartists(ArtistId);
-            if (AssSongs == null) return NotFound();
-            return Ok(AssSongs);
-        }
-        //api/Songs/artists/1/songs/2
-        [HttpPost("artists/{artistId}/songs/{songId}")]
-        public async Task<ActionResult<Songs>> AddSongToArtist(int artistId, int songId)
-        {
-            var AddSongToArtist = await _song.AddSongToArtist(artistId, songId);
-            return Ok(AddSongToArtist);
-
-        }
+        
+       
 
 
     }

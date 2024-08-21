@@ -4,7 +4,7 @@ namespace Tunify_Platform.Repositories.InterFace
 {
     public interface IUsers
     {
-        object Users { get; }
+       
 
         public Task<IEnumerable<Users>> GetAllUsers();
 

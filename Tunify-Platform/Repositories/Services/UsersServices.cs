@@ -13,11 +13,6 @@ namespace Tunify_Platform.Repositories.Services
         {
             _context = context;
         }
-
-        public object EntryState { get; private set; }
-
-        public object Users => throw new NotImplementedException();
-
         public async Task<Users> CreateUser(Users user)
         {
             _context.Users.Add(user);

@@ -17,17 +17,18 @@ namespace Tunify_Platform.Repositories.Services
             _context = context;
         }
 
-        public async Task<PlayList> AddSongToPlayList(int songId, int playlistId)
+        public async Task<PlayListSongs> AddSongToPlaylist(int songid, int playlistid)
         {
-            PlayListSongs playlistSong = new PlayListSongs()
+            var PlaylistSong = new PlayListSongs
             {
-                SongsId = songId,
-                PlaylistId = playlistId
+                SongsId = songid,
+                PlaylistId = playlistid
             };
-            _context.Entry(playlistSong).State = EntityState.Added;
-             await _context.SaveChangesAsync();
-             var playlist = await GetPlayListById(playlistId);
-            return playlist;
+            _context.Entry(PlaylistSong).State = EntityState.Added;
+            //await _tunifyDbContext.playlistSongs.AddAsync(PlaylistSong);
+            await _context.SaveChangesAsync();
+            return PlaylistSong;
+
         }
 
         public async Task<List<Songs>> GetPlayListSong(int id)

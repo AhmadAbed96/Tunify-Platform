@@ -5,6 +5,7 @@ using Tunify_Platform.Repositories.InterFace;
 
 namespace Tunify_Platform.Repositories.Services
 {
+
     public class SongService : ISongs
     {
         private readonly Tunify_DbContext _context;
@@ -14,56 +15,31 @@ namespace Tunify_Platform.Repositories.Services
             _context = context;
         }
 
-        public async Task<Songs> AddSongToArtist(int artistId, int songId)
+        public async Task CreateSong(Songs song)
         {
-            {
-                var song = await _context.songs.FirstOrDefaultAsync(e => e.Id == songId);
-                song.ArtistId = artistId;
-                await _context.SaveChangesAsync();
-                return song;
-
-            }
-        }
-
-        public async Task<Songs> CreateSong(Songs song)
-        {
-            _context.songs.Add(song);
+           var songs = _context.songs.Add(song);
             await _context.SaveChangesAsync();
-            return song;
+           
         }
 
-        public Task<Songs> CreateSong(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<Songs> DeleteSongById(int SongId)
+        public async Task DeleteSongById(int SongId)
         {           
             var song = await _context.songs.FirstAsync(u => u.Id == SongId);
-            if (song == null)
+            if (song != null)
             {
-                return null;
-            }
             _context.Entry(song).State = EntityState.Deleted;
             await _context.SaveChangesAsync();
-            return song;
+            }
+            
         }
 
         public async Task<IEnumerable<Songs>> GetAllSongs()
         {
-            return await _context.songs.ToListAsync();
-        }
-
-        public async Task<List<Songs>> GetAllsongsbyanartists(int ArtistId)
-        {
-            List<Songs> AllSongs = await _context
-               .songs
-               .Where(e => e.ArtistId == ArtistId).ToListAsync();
-
-            if (AllSongs.Count == 0) return null;
-
+            var AllSongs = await _context.songs.ToListAsync();
             return AllSongs;
         }
+
+        
 
         public async Task<Songs> GetSongById(int id)
         {
@@ -73,26 +49,12 @@ namespace Tunify_Platform.Repositories.Services
 
         }
 
-        public async Task<Songs> UpdateSong(int SongId, Songs song)
+        public async Task UpdateSong(Songs song)
         {
             _context.Entry(song).State = EntityState.Modified;
-            try
-            {
-                await _context.SavedChangesAsync();
-            }
-            catch (DbUpdateException) 
-            {
-                if (!SongExists(SongId))
-                {
-                    return null;
-                }
-            }
-            return song;
+            await _context.SaveChangesAsync();
         }
-        private bool SongExists(int id)
-        {
-            return (_context.songs?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
+       
 
     }
 }
