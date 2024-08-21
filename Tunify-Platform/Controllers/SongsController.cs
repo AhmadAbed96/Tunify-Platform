@@ -58,7 +58,7 @@ namespace Tunify_Platform.Controllers
             {
                 return NotFound();
             }
-            await _song.UpdateSong(existingSong);  
+            await _song.UpdateSong(songs);  
             return NoContent();
         }
         // POST: api/Songs
