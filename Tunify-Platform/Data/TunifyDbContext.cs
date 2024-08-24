@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata;
 using Tunify_Platform.Models;
 
 namespace Tunify_Platform.NewFolder
 {
-    public class Tunify_DbContext : DbContext
+    public class Tunify_DbContext : IdentityDbContext<IdentityUser> 
     {
         public Tunify_DbContext(DbContextOptions options) : base(options) 
         {
