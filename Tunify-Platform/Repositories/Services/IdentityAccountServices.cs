@@ -8,8 +8,8 @@ namespace Tunify_Platform.Repositories.Services
     public class IdentityAccountServices : IAccount
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        public IdentityAccountServices(UserManager<IdentityUser> userManager, SignInManager<ApplicationUser> signInManager)
+        private readonly SignInManager<IdentityUser> _signInManager;
+        public IdentityAccountServices(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -38,7 +38,7 @@ namespace Tunify_Platform.Repositories.Services
 
         public async Task<UserDto> Register(RegisterDto registerDto)
         {
-            var user = new ApplicationUser()
+            var user = new IdentityUser()
             {
                 UserName = registerDto.UserName,
                 Email = registerDto.Email
@@ -46,7 +46,11 @@ namespace Tunify_Platform.Repositories.Services
             var result = await _userManager.CreateAsync(user, registerDto.Password);
             if (result.Succeeded)
             {
-                
+                return new UserDto { 
+                Id = user.Id,
+                UserName = user.UserName,
+                };
+
             }
             return null;
         }

@@ -19,8 +19,8 @@ namespace Tunify_Platform
             builder.Services.AddDbContext<Tunify_DbContext>(optionx => optionx.UseSqlServer(ConnectionStringVar));
              
             //Add Identity service 
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<Tunify_DbContext>();
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<Tunify_DbContext>().AddDefaultTokenProviders();
             builder.Services.AddScoped<IAccount, IdentityAccountServices>();
             builder.Services.AddScoped<IUsers, UsersServices>();
             builder.Services.AddScoped<ISongs, SongService>();
