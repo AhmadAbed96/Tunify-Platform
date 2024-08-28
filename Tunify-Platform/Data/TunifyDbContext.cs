@@ -107,8 +107,27 @@ namespace Tunify_Platform.NewFolder
                
             );
 
+            seedRoles(modelBuilder, "Admin");
+            seedRoles(modelBuilder, "User", "update");
+
+        }
+        private void seedRoles(ModelBuilder modelBuilder, string roleName, params string[] permission)
+        {
+            var role = new IdentityRole
+            {
+                Id = roleName.ToLower(),
+                Name = roleName,
+                NormalizedName = roleName.ToUpper(),
+                ConcurrencyStamp = Guid.Empty.ToString()
+            };
+
+            // add claims for the users
+            // complete
+
+
+            modelBuilder.Entity<IdentityRole>().HasData(role);
         }
 
-        
+
     }
 }

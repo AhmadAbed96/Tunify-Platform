@@ -1,4 +1,5 @@
-﻿using Tunify_Platform.Models.DTO;
+﻿using System.Security.Claims;
+using Tunify_Platform.Models.DTO;
 
 namespace Tunify_Platform.Repositories.InterFace
 {
@@ -8,6 +9,7 @@ namespace Tunify_Platform.Repositories.InterFace
 
         public Task<UserDto> Login(LoginDto loginDto);
         Task LogoutAsync();
+        public Task<UserDto> userProfile(ClaimsPrincipal claimsPrincipal);
 
     }
 }

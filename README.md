@@ -16,7 +16,7 @@ high-quality streaming.
 
 # Entity Relationships
 
- *User and Subscription:**
+ * User and Subscription:**
 
 One-to-One: Each User can have one Subscription, and each Subscription is associated with one User.
 User has an optional foreign key SubscriptionId referencing Subscription.
