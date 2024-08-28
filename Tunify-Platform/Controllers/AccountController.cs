@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Tunify_Platform.Models.DTO;
 using Tunify_Platform.Repositories.InterFace;
+using Tunify_Platform.Repositories.Services;
 
 namespace Tunify_Platform.Controllers
 {
@@ -46,6 +48,14 @@ namespace Tunify_Platform.Controllers
         {
             await _account.LogoutAsync();
             return Ok("User logged out successfully.");
+        }
+       
+        [Authorize(Roles = "Admin")]
+        [HttpGet("Profile")]
+        public async Task<ActionResult<UserDto>> Profile()
+        {
+            return await _account.userProfile(User);
+
         }
     }
 }
